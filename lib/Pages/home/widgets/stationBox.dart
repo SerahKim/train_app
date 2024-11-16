@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_train_app/Pages/station_list/stationlistPage.dart';
-import 'package:flutter_train_app/Pages/station_list/widgets/stationName.dart';
 
 class StationBox extends StatelessWidget {
   @override
@@ -15,13 +14,15 @@ class StationBox extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Padding(
-              padding: EdgeInsets.all(50),
-              child: DepatureOrArrival(
-                depatureorarrival: '출발역',
+              padding: EdgeInsets.symmetric(vertical: 50),
+              child: Container(
+                width: 100,
+                child: DepatureOrArrival(
+                  depatureorarrival: '출발역',
+                ),
               ),
             ),
             Container(
@@ -30,8 +31,11 @@ class StationBox extends StatelessWidget {
               color: Colors.grey,
             ),
             Padding(
-              padding: EdgeInsets.all(50),
-              child: DepatureOrArrival(depatureorarrival: '도착역'),
+              padding: EdgeInsets.symmetric(vertical: 50),
+              child: Container(
+                width: 100,
+                child: DepatureOrArrival(depatureorarrival: '도착역'),
+              ),
             ),
           ],
         ),
@@ -40,18 +44,24 @@ class StationBox extends StatelessWidget {
   }
 }
 
-class DepatureOrArrival extends StatelessWidget {
+class DepatureOrArrival extends StatefulWidget {
   DepatureOrArrival({required this.depatureorarrival});
 
   String depatureorarrival;
-  String name = '';
+
+  @override
+  State<DepatureOrArrival> createState() => _DepatureOrArrivalState();
+}
+
+class _DepatureOrArrivalState extends State<DepatureOrArrival> {
+  String name = '선택';
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Text(
-          depatureorarrival,
+          widget.depatureorarrival,
           style: TextStyle(
             fontSize: 16,
             color: Colors.grey,
@@ -59,16 +69,30 @@ class DepatureOrArrival extends StatelessWidget {
           ),
         ),
         TextButton(
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        StationListPage(depatureOrarrival: depatureorarrival)));
+          onPressed: () async {
+            // StationListPage에서 반환되는 값을 받아오는 부분
+            final selectedStation = await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => StationListPage(
+                    depatureOrarrival: widget.depatureorarrival),
+              ),
+            );
+            if (selectedStation != null) {
+              setState(() {
+                name = selectedStation; // 반환된 값을 업데이트합니다.
+              });
+            }
           },
-          child: Text(
-            '선택',
-            style: TextStyle(fontSize: 40, color: Colors.black),
+          child: FittedBox(
+            fit: BoxFit.fitWidth,
+            child: Text(
+              name,
+              style: TextStyle(
+                fontSize: 40,
+                color: Colors.black,
+              ),
+            ),
           ),
         )
       ],

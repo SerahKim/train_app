@@ -7,24 +7,30 @@ class StationListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<String> stations = [
+      '수서',
+      '동탄',
+      '평택지제',
+      '천안아산',
+      '오송',
+      '대전',
+      '김천구미',
+      '동대구',
+      '경주',
+      '울산',
+      '부산'
+    ];
+
     return Scaffold(
         appBar: AppBar(
           title: Text(depatureOrarrival),
         ),
-        body: Column(
-          children: [
-            StationName(stationname: '수서'),
-            StationName(stationname: '동탄'),
-            StationName(stationname: '평택지제'),
-            StationName(stationname: '천안아산'),
-            StationName(stationname: '오송'),
-            StationName(stationname: '대전'),
-            StationName(stationname: '김천구미'),
-            StationName(stationname: '동대구'),
-            StationName(stationname: '경주'),
-            StationName(stationname: '울산'),
-            StationName(stationname: '부산'),
-          ],
+        body: ListView.builder(
+          itemCount: stations.length,
+          itemBuilder: (context, index) {
+            return StationName(
+                stationname: stations[index]); //StationListPage의 return 값
+          },
         ));
   }
 }
