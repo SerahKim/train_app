@@ -5,32 +5,33 @@ class SeatInfo extends StatelessWidget {
 
   String selectedRowName;
   int selectedColNum;
-
   void Function(String row, int col) onSelectedSeat;
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode =
+        Theme.of(context).brightness == Brightness.dark; //다크모드를 위한 변수
     return Expanded(
       child: SingleChildScrollView(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            seatName('A'),
+            seatName('A', isDarkMode),
             SizedBox(width: 4),
-            seatName('B'),
+            seatName('B', isDarkMode),
             SizedBox(width: 4),
             SeatNum(),
             SizedBox(width: 4),
-            seatName('C'),
+            seatName('C', isDarkMode),
             SizedBox(width: 4),
-            seatName('D'),
+            seatName('D', isDarkMode),
           ],
         ),
       ),
     );
   }
 
-  Column seatName(String seatname) {
+  Column seatName(String seatname, bool isDarkMode) {
     //A, B, C, D
     return Column(
       children: [
@@ -38,12 +39,12 @@ class SeatInfo extends StatelessWidget {
           seatname,
           style: TextStyle(fontSize: 20),
         ),
-        for (int i = 1; i <= 20; i++) seat(seatname, i)
+        for (int i = 1; i <= 20; i++) seat(seatname, i, isDarkMode)
       ],
     );
   }
 
-  Widget seat(String rowName, int colNum) {
+  Widget seat(String rowName, int colNum, bool isDarkMode) {
     //A, B, C, D 좌석
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 4),
@@ -62,7 +63,9 @@ class SeatInfo extends StatelessWidget {
               decoration: BoxDecoration(
                   color: rowName == selectedRowName && colNum == selectedColNum
                       ? Colors.purple
-                      : Colors.grey[300]!,
+                      : isDarkMode
+                          ? Colors.grey[700]
+                          : Colors.grey[300]!,
                   borderRadius: BorderRadius.circular(8)),
             ),
           ),

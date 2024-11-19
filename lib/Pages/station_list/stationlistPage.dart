@@ -7,6 +7,8 @@ class StationListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode =
+        Theme.of(context).brightness == Brightness.dark; //다크모드를 위한 변수
     final List<String> stations = [
       '수서',
       '동탄',

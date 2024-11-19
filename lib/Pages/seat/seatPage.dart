@@ -37,6 +37,8 @@ class _SeatPageState extends State<SeatPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode =
+        Theme.of(context).brightness == Brightness.dark; //다크모드를 위한 변수
     return Scaffold(
       appBar: AppBar(
         title: Text('좌석 선택'),
@@ -88,7 +90,7 @@ class _SeatPageState extends State<SeatPage> {
                   width: 24,
                   height: 24,
                   decoration: BoxDecoration(
-                    color: Colors.grey[300]!,
+                    color: isDarkMode ? Colors.grey[700] : Colors.grey[300]!,
                     borderRadius: BorderRadius.circular(8),
                   )),
               SizedBox(width: 4),

@@ -11,10 +11,16 @@ class StationName extends StatefulWidget {
 class _StationNameState extends State<StationName> {
   @override
   Widget build(BuildContext context) {
+    final isDarkMode =
+        Theme.of(context).brightness == Brightness.dark; //다크모드를 위한 변수
     return Container(
       height: 50,
       decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(color: Colors.grey[300]!)),
+        border: Border(
+          bottom: BorderSide(
+            color: Colors.grey[300]!,
+          ),
+        ),
       ),
       child: TextButton(
         onPressed: () {
@@ -27,7 +33,7 @@ class _StationNameState extends State<StationName> {
             child: Text(
               widget.stationname,
               style: TextStyle(
-                color: Colors.black,
+                color: isDarkMode ? Colors.grey[300]! : Colors.black,
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),

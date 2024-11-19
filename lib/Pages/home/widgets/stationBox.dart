@@ -13,13 +13,16 @@ class StationBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode =
+        Theme.of(context).brightness == Brightness.dark; //다크모드를 위한 변수
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20),
       child: Container(
         width: double.maxFinite,
         height: 200,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: isDarkMode ? Colors.grey[800] : Colors.white,
           borderRadius: BorderRadius.circular(20),
         ),
         child: Row(
@@ -75,13 +78,16 @@ class _DepartureOrArrivalState extends State<DepartureOrArrival> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode =
+        Theme.of(context).brightness == Brightness.dark; //다크모드를 위한 변수
+
     return Column(
       children: [
         Text(
           widget.departureorarrival,
           style: TextStyle(
             fontSize: 16,
-            color: Colors.grey,
+            color: isDarkMode ? Colors.grey[400] : Colors.black,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -108,7 +114,7 @@ class _DepartureOrArrivalState extends State<DepartureOrArrival> {
               selectedStationName,
               style: TextStyle(
                 fontSize: 40,
-                color: Colors.black,
+                color: isDarkMode ? Colors.grey[300] : Colors.black,
               ),
             ),
           ),
