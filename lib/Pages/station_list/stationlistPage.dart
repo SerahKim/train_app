@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_train_app/Pages/station_list/widgets/stationName.dart';
 
 class StationListPage extends StatelessWidget {
-  StationListPage({required this.depatureOrarrival});
-  String depatureOrarrival;
+  StationListPage({required this.departureOrarrival});
+  String departureOrarrival;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class StationListPage extends StatelessWidget {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text(depatureOrarrival),
+          title: Text(departureOrarrival),
         ),
         body: ListView.builder(
           itemCount: stations.length,

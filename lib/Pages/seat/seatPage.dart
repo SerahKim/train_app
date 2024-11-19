@@ -1,7 +1,40 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_train_app/Pages/seat/Widgets/seatName.dart';
+import 'package:flutter_train_app/Pages/home/homePage.dart';
+import 'package:flutter_train_app/Pages/home/widgets/stationBox.dart';
+import 'package:flutter_train_app/Pages/seat/Widgets/seatInfo.dart';
+import 'package:flutter_train_app/Pages/station_list/stationlistPage.dart';
 
-class SeatPage extends StatelessWidget {
+class SeatPage extends StatefulWidget {
+  SeatPage({required this.departureStation, required this.arrivalStation});
+
+  String departureStation;
+  String arrivalStation;
+
+  @override
+  State<SeatPage> createState() => _SeatPageState();
+}
+
+class _SeatPageState extends State<SeatPage> {
+  late String departureStation;
+  late String arrivalStation;
+  String selectedRowName = '';
+  int selectedColNum = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    departureStation = widget.departureStation; // widget의 값으로 초기화
+    arrivalStation = widget.arrivalStation;
+  }
+
+  void onSelecetedSeat(String row, int col) {
+    setState(() {
+      selectedRowName = row;
+      selectedColNum = col;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,28 +47,21 @@ class SeatPage extends StatelessWidget {
             // 출발역과 도착역을 확인할 수 있는 부분
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              TextButton(
-                //버튼을 클릭하면
-                onPressed: () {},
-                child: Text(
-                  '출발역',
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.purple,
-                  ),
+              Text(
+                departureStation,
+                style: TextStyle(
+                  fontSize: 30,
+                  color: Colors.purple,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               Icon(Icons.arrow_circle_right_outlined, size: 30),
-              TextButton(
-                onPressed: () {},
-                child: Text(
-                  '도착역',
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.purple,
-                  ),
+              Text(
+                arrivalStation,
+                style: TextStyle(
+                  fontSize: 30,
+                  color: Colors.purple,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ],
@@ -72,30 +98,46 @@ class SeatPage extends StatelessWidget {
             ],
           ),
           SizedBox(height: 20),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ColumnSeat('A'),
-                  SizedBox(width: 4),
-                  ColumnSeat('B'),
-                  SizedBox(width: 4),
-                  SeatNum(),
-                  SizedBox(width: 4),
-                  ColumnSeat('C'),
-                  SizedBox(width: 4),
-                  ColumnSeat('D'),
-                ],
-              ),
-            ),
-          ),
+          SeatInfo(selectedRowName, selectedColNum, onSelecetedSeat),
           Container(
             width: double.maxFinite,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  showCupertinoDialog(
+                      context: context,
+                      builder: (context) {
+                        return CupertinoAlertDialog(
+                          title: Text('예약하시겠습니까?'),
+                          content: Text('좌석 : $selectedRowName' +
+                              '-' +
+                              '$selectedColNum'),
+                          actions: [
+                            CupertinoDialogAction(
+                              isDefaultAction: true,
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text('취소',
+                                  style: TextStyle(color: Colors.red)),
+                            ),
+                            CupertinoDialogAction(
+                              isDefaultAction: true,
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => HomePage(),
+                                  ),
+                                );
+                              },
+                              child: Text('확인'),
+                            ),
+                          ],
+                        );
+                      });
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.purple,
                   foregroundColor: Colors.white,
