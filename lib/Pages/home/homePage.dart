@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_train_app/Pages/home/widgets/stationBox.dart';
 import 'package:flutter_train_app/Pages/seat/seatPage.dart';
@@ -10,8 +11,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   //stationBox로부터 넘겨받은 데이터를 저장하기 위한 class 변수
-  late String Departure;
-  late String Arrival;
+  late String Departure = '';
+  late String Arrival = '';
 
   @override
   Widget build(BuildContext context) {
@@ -39,15 +40,39 @@ class _HomePageState extends State<HomePage> {
                 width: double.maxFinite,
                 child: ElevatedButton(
                     onPressed: () async {
-                      //선택된 역의 정보를 SeatPage로 넘겨줌
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SeatPage(
-                              departureStation: Departure,
-                              arrivalStation: Arrival),
-                        ),
-                      );
+                      //역이 선택되지 않은 경우
+                      if (Departure.isEmpty || Arrival.isEmpty) {
+                        showCupertinoDialog(
+                          context: context,
+                          builder: (context) {
+                            return CupertinoAlertDialog(
+                              title: Text(
+                                '출발역과 도착역을 모두 선택해주세요!',
+                                style: TextStyle(fontSize: 15),
+                              ),
+                              actions: [
+                                CupertinoDialogAction(
+                                  isDefaultAction: true,
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('확인'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      } else {
+                        //역이 선택된 경우 선택된 역의 정보를 SeatPage로 넘겨줌
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SeatPage(
+                                departureStation: Departure,
+                                arrivalStation: Arrival),
+                          ),
+                        );
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.purple,

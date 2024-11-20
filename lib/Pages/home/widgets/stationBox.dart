@@ -3,6 +3,7 @@ import 'package:flutter_train_app/Pages/seat/seatPage.dart';
 import 'package:flutter_train_app/Pages/station_list/stationlistPage.dart';
 
 class StationBox extends StatelessWidget {
+  //_DepartureOrArrivalState에서 넘겨준 값을 받기 위한 변수
   StationBox({
     required this.onDepartureSelected,
     required this.onArrivalSelected,
@@ -34,7 +35,8 @@ class StationBox extends StatelessWidget {
                 width: 100,
                 child: DepartureOrArrival(
                   departureorarrival: '출발역',
-                  onStationSelected: onDepartureSelected,
+                  onStationSelected:
+                      onDepartureSelected, //_DepartureOrArrivalState와 연결
                 ),
               ),
             ),
@@ -49,7 +51,8 @@ class StationBox extends StatelessWidget {
                 width: 100,
                 child: DepartureOrArrival(
                   departureorarrival: '도착역',
-                  onStationSelected: onArrivalSelected,
+                  onStationSelected:
+                      onArrivalSelected, // //_DepartureOrArrivalState와 연결
                 ),
               ),
             ),
@@ -67,7 +70,8 @@ class DepartureOrArrival extends StatefulWidget {
   });
 
   String departureorarrival;
-  final void Function(String selectedStation) onStationSelected;
+  final void Function(String selectedStation)
+      onStationSelected; // 선택된 역의 정보를 넘겨주기 위한 함수
 
   @override
   State<DepartureOrArrival> createState() => _DepartureOrArrivalState();
@@ -84,7 +88,8 @@ class _DepartureOrArrivalState extends State<DepartureOrArrival> {
     return Column(
       children: [
         Text(
-          widget.departureorarrival,
+          widget
+              .departureorarrival, //DepartureOrArrival에서 정의된 departureorarrival를 _DepartureOrArrivalState에서 사용, DepartureOrArrival은 stationBox로부터 값을 받는다.
           style: TextStyle(
             fontSize: 16,
             color: isDarkMode ? Colors.grey[400] : Colors.black,
@@ -93,6 +98,7 @@ class _DepartureOrArrivalState extends State<DepartureOrArrival> {
         ),
         TextButton(
           onPressed: () async {
+            //StationListPage로부터 반환 값을 받는 부분
             final selectedStation = await Navigator.push(
               context,
               MaterialPageRoute(
@@ -101,10 +107,12 @@ class _DepartureOrArrivalState extends State<DepartureOrArrival> {
                 ),
               ),
             );
+            //stationListPage로부터 역을 반환받은 경우, 즉 역이 선택된 경우
             if (selectedStation != null) {
               setState(() {
                 selectedStationName = selectedStation;
               });
+              //onStationSelected의 매개 변수에 selectedStation을 대입하여 선택된 역 정보 전달
               widget.onStationSelected(selectedStation);
             }
           },

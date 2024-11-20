@@ -16,11 +16,11 @@ class SeatPage extends StatefulWidget {
 }
 
 class _SeatPageState extends State<SeatPage> {
-  //다른 페이지로부터 받아온 역 정보를 class 내에 쓰기 위한 class 변수
+  //다른 페이지로부터 받아온 역 정보를 class 내에서 쓰기 위한 class 변수
   late String departureStation;
   late String arrivalStation;
 
-  //다른 페이지로부터 받아온 열과 행 정보를 class 내에 쓰기 위한 class 변수
+  //다른 페이지로부터 받아온 열과 행 정보를 class 내에서 쓰기 위한 class 변수
   String selectedRowName = '';
   int selectedColNum = 0;
 
@@ -31,6 +31,7 @@ class _SeatPageState extends State<SeatPage> {
     arrivalStation = widget.arrivalStation;
   }
 
+//onSelecetedSeat의 변수를 class 변수에 대입
   void onSelecetedSeat(String row, int col) {
     setState(() {
       selectedRowName = row;
@@ -103,14 +104,36 @@ class _SeatPageState extends State<SeatPage> {
             ],
           ),
           SizedBox(height: 20),
+          //좌석 모양, 선택 등에 대한 정보
           SeatInfo(selectedRowName, selectedColNum, onSelecetedSeat),
+          //예매하기 버튼, 아이폰 다이얼로그
           Container(
             width: double.maxFinite,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: ElevatedButton(
                 onPressed: () {
-                  showCupertinoDialog(
+                  //좌석이 선택되지 않은 경우
+                  if (selectedRowName.isEmpty || selectedColNum == 0) {
+                    showCupertinoDialog(
+                        context: context,
+                        builder: (context) {
+                          return CupertinoAlertDialog(
+                            title: Text('좌석을 선택해주세요!'),
+                            actions: [
+                              CupertinoDialogAction(
+                                isDefaultAction: true,
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text('확인'),
+                              ),
+                            ],
+                          );
+                        });
+                  } else {
+                    //좌석이 선택된 경우
+                    showCupertinoDialog(
                       context: context,
                       builder: (context) {
                         return CupertinoAlertDialog(
@@ -141,7 +164,9 @@ class _SeatPageState extends State<SeatPage> {
                             ),
                           ],
                         );
-                      });
+                      },
+                    );
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.purple,

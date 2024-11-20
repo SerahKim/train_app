@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class SeatInfo extends StatelessWidget {
   SeatInfo(this.selectedRowName, this.selectedColNum, this.onSelectedSeat);
 
+//좌석 정보를 넘겨주기 위한 변수
   String selectedRowName;
   int selectedColNum;
   void Function(String row, int col) onSelectedSeat;
@@ -32,7 +33,7 @@ class SeatInfo extends StatelessWidget {
   }
 
   Column seatName(String seatname, bool isDarkMode) {
-    //A, B, C, D
+    //seat을 column형태로 배열하기 위한 위젯
     return Column(
       children: [
         Text(
@@ -45,7 +46,7 @@ class SeatInfo extends StatelessWidget {
   }
 
   Widget seat(String rowName, int colNum, bool isDarkMode) {
-    //A, B, C, D 좌석
+    //좌석 모양 하나를 만들기 위한 widget
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 4),
       child: SizedBox(
@@ -75,7 +76,7 @@ class SeatInfo extends StatelessWidget {
   }
 
   Column SeatNum() {
-    //1, 2, 3, 4...
+    //좌석 번호를 나타내주기 위한 위젯
     return Column(
       children: [
         Text(
@@ -88,7 +89,7 @@ class SeatInfo extends StatelessWidget {
   }
 
   Widget seatNumber(int seatnum) {
-    //1, 2, 3, 4 좌석
+    //좌석 번호를 하나의 컨테이너로 감싼 위젯
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 4),
       child: Container(
