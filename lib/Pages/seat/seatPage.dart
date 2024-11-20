@@ -16,8 +16,11 @@ class SeatPage extends StatefulWidget {
 }
 
 class _SeatPageState extends State<SeatPage> {
+  //다른 페이지로부터 받아온 역 정보를 class 내에 쓰기 위한 class 변수
   late String departureStation;
   late String arrivalStation;
+
+  //다른 페이지로부터 받아온 열과 행 정보를 class 내에 쓰기 위한 class 변수
   String selectedRowName = '';
   int selectedColNum = 0;
 
